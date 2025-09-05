@@ -1,12 +1,19 @@
 # AWS Lambda Runtime for Deno
 
-A lightweight zero dependency Deno library for AWS Lambda that implements the
+A lightweight, zero-dependency Deno library for AWS Lambda that implements the
 [AWS Lambda Runtime API](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-api.html).
 
-It is designed to be used with `deno compile` to create a binary that can be
-deployed to AWS Lambda using the
+Designed for use with `deno compile` to create binaries deployable to AWS Lambda
+using the
 [provided.al2023](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html)
 runtime.
+
+While
+[aws-lambda-web-adapter](https://github.com/awslabs/aws-lambda-web-adapter) is
+officially recommended by Deno for web applications, it requires an HTTP server.
+This project enables you to create general-purpose Lambda functions in Deno for
+services like EventBridge, SQS, and other non-HTTP event sources without the
+overhead of an HTTP server.
 
 ## Installation
 
@@ -142,7 +149,7 @@ Build and deploy with SAM:
 sam deploy
 ```
 
-## Using Terraform
+### Using Terraform
 
 You can use
 [terraform-aws-modules/lambda/aws](https://registry.terraform.io/modules/terraform-aws-modules/lambda/aws/latest)
@@ -177,9 +184,3 @@ module "my_lambda" {
 ### Prerequisites
 
 - [mise](https://mise.jdx.dev/) installed
-
-## Related Projects
-
-- [aws-lambda-web-adapter](https://github.com/awslabs/aws-lambda-web-adapter) -
-  Use this if you want to run web applications on AWS Lambda via Functions URLs
-  or API Gateway.
