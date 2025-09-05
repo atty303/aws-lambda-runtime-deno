@@ -1,5 +1,6 @@
 import * as process from "node:process";
 
+/** Represents the context object passed to AWS Lambda handler functions. */
 export type Context = {
   awsRequestId: string;
   invokedFunctionArn?: string;
@@ -14,6 +15,7 @@ export type Context = {
   getRemainingTimeInMillis(): number;
 };
 
+/** Represents a Lambda handler function. */
 export type Handler<A> = (
   event: A,
   context: Context,
@@ -112,6 +114,12 @@ async function respondError(requestId: string, err: unknown) {
   );
 }
 
+/** Starts the Lambda runtime with the provided handler function.
+ *  This function runs indefinitely, processing incoming Lambda invocations.
+ *
+ * @param handler The Lambda handler function to process events.
+ * @returns A Promise that never resolves, as the function runs indefinitely.
+ */
 export async function start<A>(handler: Handler<A>): Promise<never> {
   if (!RUNTIME_API) {
     await reportInitError(
