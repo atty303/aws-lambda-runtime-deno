@@ -1,4 +1,4 @@
-// Deno custom runtime library for AWS Lambda Runtime API.
+import * as process from "node:process";
 
 export type Context = {
   awsRequestId: string;
@@ -19,7 +19,7 @@ export type Handler<A> = (
   context: Context,
 ) => unknown | Promise<unknown>;
 
-const RUNTIME_API = Deno.env.get("AWS_LAMBDA_RUNTIME_API");
+const RUNTIME_API = process.env["AWS_LAMBDA_RUNTIME_API"];
 
 function toErrorPayload(err: unknown) {
   const e = err instanceof Error ? err : new Error(String(err));
@@ -62,7 +62,7 @@ async function getNext() {
   const identity = res.headers.get("Lambda-Runtime-Cognito-Identity");
   const event = await res.json();
 
-  if (trace) Deno.env.set("_X_AMZN_TRACE_ID", trace);
+  if (trace) process.env["_X_AMZN_TRACE_ID"] = trace;
 
   return {
     requestId,
@@ -85,11 +85,11 @@ function buildContext(base: {
     awsRequestId: base.requestId,
     invokedFunctionArn: base.invokedArn,
     deadlineMs: base.deadlineMs,
-    functionName: Deno.env.get("AWS_LAMBDA_FUNCTION_NAME"),
-    functionVersion: Deno.env.get("AWS_LAMBDA_FUNCTION_VERSION"),
-    memoryLimitInMB: Deno.env.get("AWS_LAMBDA_FUNCTION_MEMORY_SIZE"),
-    logGroupName: Deno.env.get("AWS_LAMBDA_LOG_GROUP_NAME"),
-    logStreamName: Deno.env.get("AWS_LAMBDA_LOG_STREAM_NAME"),
+    functionName: process.env["AWS_LAMBDA_FUNCTION_NAME"],
+    functionVersion: process.env["AWS_LAMBDA_FUNCTION_VERSION"],
+    memoryLimitInMB: process.env["AWS_LAMBDA_FUNCTION_MEMORY_SIZE"],
+    logGroupName: process.env["AWS_LAMBDA_LOG_GROUP_NAME"],
+    logStreamName: process.env["AWS_LAMBDA_LOG_STREAM_NAME"],
     clientContext: base.clientContext,
     identity: base.identity,
     getRemainingTimeInMillis() {
@@ -118,7 +118,7 @@ export async function start<A>(handler: Handler<A>): Promise<never> {
       new Error("AWS_LAMBDA_RUNTIME_API is not set. Not on Lambda?"),
     );
     console.error("Not running in Lambda (AWS_LAMBDA_RUNTIME_API missing).");
-    Deno.exit(1);
+    process.exit(1);
   }
 
   for (;;) {

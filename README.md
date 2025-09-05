@@ -26,11 +26,7 @@ import { start } from "jsr:@atty303/aws-lambda-runtime";
 Create a simple Lambda function:
 
 ```typescript
-import {
-  Context,
-  Handler,
-  start,
-} from "jsr:@atty303/aws-lambda-runtime";
+import { Context, Handler, start } from "jsr:@atty303/aws-lambda-runtime";
 
 interface Event {
   name: string;
@@ -98,7 +94,7 @@ indefinitely, processing incoming Lambda invocations.
 **Example:**
 
 ```typescript
-import { start } from "./src/runtime.ts";
+import { start } from "jsr:@atty303/aws-lambda-runtime";
 
 const myHandler = async (event, context) => {
   // Your handler logic here
