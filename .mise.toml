@@ -6,6 +6,6 @@ pkl = "latest"
 [tasks.publish]
 description = "Publish to JSR (Run from GitHub Actions)"
 run = [
-    """jq '.version = "{{option(name='version')}}"' deno.jsonc > tmp.json && mv tmp.json deno.jsonc""",
+    """jq --arg v "{{option(name='version')}}" '.version = ($v | sub("^v"; ""))' deno.jsonc > tmp.json && mv tmp.json deno.jsonc""",
     "npx jsr publish --allow-dirty",
 ]
