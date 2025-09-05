@@ -1,0 +1,52 @@
+amends "package://github.com/jdx/hk/releases/download/v1.10.7/hk@1.10.7#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.10.7/hk@1.10.7#/Builtins.pkl"
+
+local deno = new Step {
+  glob = List("*.js", "*.jsx", "*.ts", "*.tsx")
+  stage = glob
+  workspace_indicator = "deno.jsonc"
+  prefix = "mise exec -C {{ workspace }} --"
+}
+
+local linters = new Mapping<String, Step> {
+  ["deno_fmt"] = (deno) {
+    glob = List("*.js", "*.jsx", "*.ts", "*.tsx", "deno.jsonc")
+    stage = glob
+    check = "deno fmt --check {{ workspace_files }}"
+    fix = "deno fmt {{ workspace_files }}"
+  }
+
+  ["deno_lint"] = (deno) {
+    check = "deno lint {{ workspace_files }}"
+    fix = "deno lint --fix {{ workspace_files }}"
+  }
+
+  ["deno_check"] = (deno) {
+    check = "deno lint {{ workspace_files }}"
+  }
+
+  ["pkl"] {
+    glob = "*.pkl"
+    check = "pkl eval {{files}} >/dev/null"
+  }
+}
+
+hooks {
+  ["pre-commit"] {
+    fix = true
+    stash = "git"
+    steps {
+      ...linters
+    }
+  }
+  ["pre-push"] {
+    steps = linters
+  }
+  ["fix"] {
+    fix = true
+    steps = linters
+  }
+  ["check"] {
+    steps = linters
+  }
+}
