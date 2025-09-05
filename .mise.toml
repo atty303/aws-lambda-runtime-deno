@@ -7,5 +7,5 @@ pkl = "latest"
 description = "Publish to JSR (Run from GitHub Actions)"
 run = [
     """jq '.version = "{{option(name='version')}}"' deno.jsonc > tmp.json && mv tmp.json deno.jsonc""",
-    "npx jsr publish",
+    "npx jsr publish --allow-dirty",
 ]
