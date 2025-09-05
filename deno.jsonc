@@ -1,6 +1,6 @@
 {
   "name": "@atty303/aws-lambda-runtime",
-  "version": "1.0.0",
+  "version": "main",
   "license": "MIT",
   "exports": "./src/mod.ts"
 }
