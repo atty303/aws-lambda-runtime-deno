@@ -28,6 +28,7 @@ jobs:
             @semantic-release/commit-analyzer
             @semantic-release/release-notes-generator
             @semantic-release/exec
+            @semantic-release/git
             @semantic-release/github
         env:
           GITHUB_TOKEN: ${{ github.token }}

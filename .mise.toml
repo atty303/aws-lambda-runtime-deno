@@ -3,9 +3,11 @@ deno = "latest"
 hk = "latest"
 pkl = "latest"
 
+
+[tasks.prepare]
+description = "Prepare for release (Run from GitHub Actions)"
+run = """jq --arg v "{{option(name='version')}}" '.version = $v' deno.jsonc > tmp.json && mv tmp.json deno.jsonc"""
+
 [tasks.publish]
 description = "Publish to JSR (Run from GitHub Actions)"
-run = [
-    """jq --arg v "{{option(name='version')}}" '.version = ($v | sub("^v"; ""))' deno.jsonc > tmp.json && mv tmp.json deno.jsonc""",
-    "npx jsr publish --allow-dirty",
-]
+run = "npx jsr publish"
