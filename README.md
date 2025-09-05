@@ -5,7 +5,7 @@ A lightweight, zero-dependency Deno library for AWS Lambda that implements the
 
 Designed for use with `deno compile` to create binaries deployable to AWS Lambda
 using the
-[provided.al2023](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html)
+[provided.al2023](https://docs.aws.amazon.com/linux/al2023/ug/lambda.html)
 runtime.
 
 While
@@ -184,3 +184,8 @@ module "my_lambda" {
 ### Prerequisites
 
 - [mise](https://mise.jdx.dev/) installed
+
+```
+mise install
+hk install --mise
+```

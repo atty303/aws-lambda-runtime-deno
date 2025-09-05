@@ -2,3 +2,6 @@
 deno = "latest"
 hk = "latest"
 pkl = "latest"
+
+[tasks.publish]
+run = "deno publish"
