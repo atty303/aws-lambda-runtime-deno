@@ -18,7 +18,7 @@ overhead of an HTTP server.
 ## Installation
 
 ```typescript
-import { start } from "https://deno.land/x/aws_lambda_runtime_deno/src/runtime.ts";
+import { start } from "jsr:@atty303/aws-lambda-runtime";
 ```
 
 ## Quick Start
@@ -30,7 +30,7 @@ import {
   Context,
   Handler,
   start,
-} from "https://deno.land/x/aws_lambda_runtime_deno/src/runtime.ts";
+} from "jsr:@atty303/aws-lambda-runtime";
 
 interface Event {
   name: string;
